@@ -135,9 +135,6 @@ Interacting with the graph:
 
 ## Figure 1 — Static graph (first iteration)
 
-If you've kept the original static PNG from the project's early stage, place it in the repo as `figure_1.png` and it will be rendered alongside this README on GitHub. This README references the static figure to demonstrate the project's progression from static Matplotlib graphs to a dynamic vis.js powered layout.
-
-Example (add `figure_1.png` to the repo root):
 
 <img width="1000" height="800" alt="Figure_1" src="https://github.com/user-attachments/assets/8c7c267c-a10f-4103-8df9-75185f37d617" />
 
