@@ -139,7 +139,7 @@ If you've kept the original static PNG from the project's early stage, place it 
 
 Example (add `figure_1.png` to the repo root):
 
-![Figure 1 — Static graph](figure_1.png)
+![Uploading Figure_1.png…]()
 
 ---
 
