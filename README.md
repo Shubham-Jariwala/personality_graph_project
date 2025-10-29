@@ -170,6 +170,12 @@ Trade-offs:
 
 ---
 
+## Final Interactive Design
+
+https://github.com/user-attachments/assets/6bbe3785-cb1f-4048-8d10-16b23410cb7a
+
+---
+
 ## Next steps (suggested)
 
 - (Optional) Integrate spaCy for more accurate extraction (NER, dependency parsing, and coreference resolution).
