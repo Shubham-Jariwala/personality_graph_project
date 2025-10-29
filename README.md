@@ -139,7 +139,8 @@ If you've kept the original static PNG from the project's early stage, place it 
 
 Example (add `figure_1.png` to the repo root):
 
-![Uploading Figure_1.png…]()
+<img width="1000" height="800" alt="Figure_1" src="https://github.com/user-attachments/assets/8c7c267c-a10f-4103-8df9-75185f37d617" />
+
 
 ---
 
