@@ -1,0 +1,231 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #282a36;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    
+    <style>
+        body { background-color: #282a36; margin: 0; }
+        #mynetwork {
+            width: 100vw !important;
+            height: 100vh !important;
+            background-color: #282a36;
+        }
+    </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_1", "label": "Statement 1", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#FFB86C", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "the interview session", "label": "the interview session", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Situation\u003cbr\u003eClick to expand/collapse"}, {"color": "#50FA7B", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "angry", "label": "angry", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Emotion\u003cbr\u003eClick to expand/collapse"}, {"color": "#FF5555", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "avoided eye contact", "label": "avoided eye contact", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Action\u003cbr\u003eClick to expand/collapse"}, {"color": "#BD93F9", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "acted impulsively", "label": "acted impulsively", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Motive\u003cbr\u003eClick to expand/collapse"}, {"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_2", "label": "Statement 2", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#FFB86C", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "the interrogation room", "label": "the interrogation room", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Situation\u003cbr\u003eClick to expand/collapse"}, {"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_3", "label": "Statement 3", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#FFB86C", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "the transport after arrest", "label": "the transport after arrest", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Situation\u003cbr\u003eClick to expand/collapse"}, {"color": "#50FA7B", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "anxious", "label": "anxious", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Emotion\u003cbr\u003eClick to expand/collapse"}, {"color": "#FF5555", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "refused to cooperate", "label": "refused to cooperate", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Action\u003cbr\u003eClick to expand/collapse"}, {"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_4", "label": "Statement 4", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#BD93F9", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "wanted recognition", "label": "wanted recognition", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Motive\u003cbr\u003eClick to expand/collapse"}, {"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_5", "label": "Statement 5", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#50FA7B", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "defensive", "label": "defensive", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Emotion\u003cbr\u003eClick to expand/collapse"}, {"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_6", "label": "Statement 6", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#BD93F9", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "was afraid of consequences", "label": "was afraid of consequences", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Motive\u003cbr\u003eClick to expand/collapse"}, {"color": "#7C88FF", "font": {"color": "#f8f8f2"}, "hidden": false, "id": "Statement_7", "label": "Statement 7", "mass": 2, "shape": "dot", "size": 25, "title": "Type: Statement\u003cbr\u003eClick to expand/collapse"}, {"color": "#FFB86C", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "questioned about the reasons", "label": "questioned about the reasons", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Situation\u003cbr\u003eClick to expand/collapse"}, {"color": "#FF5555", "font": {"color": "#f8f8f2"}, "hidden": true, "id": "", "label": "", "mass": 1, "shape": "dot", "size": 20, "title": "Type: Action\u003cbr\u003eClick to expand/collapse"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_1", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "the interview session"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_1", "smooth": {"type": "continuous"}, "title": "showed_emotion", "to": "angry"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_1", "smooth": {"type": "continuous"}, "title": "performed_action", "to": "avoided eye contact"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_1", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "acted impulsively"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_2", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "the interrogation room"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_2", "smooth": {"type": "continuous"}, "title": "showed_emotion", "to": "angry"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_2", "smooth": {"type": "continuous"}, "title": "performed_action", "to": "avoided eye contact"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_2", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "acted impulsively"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_3", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "the transport after arrest"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_3", "smooth": {"type": "continuous"}, "title": "showed_emotion", "to": "anxious"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_3", "smooth": {"type": "continuous"}, "title": "performed_action", "to": "refused to cooperate"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_3", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "acted impulsively"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_4", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "the transport after arrest"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_4", "smooth": {"type": "continuous"}, "title": "showed_emotion", "to": "anxious"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_4", "smooth": {"type": "continuous"}, "title": "performed_action", "to": "refused to cooperate"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_4", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "wanted recognition"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_5", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "the interrogation room"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_5", "smooth": {"type": "continuous"}, "title": "showed_emotion", "to": "defensive"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_5", "smooth": {"type": "continuous"}, "title": "performed_action", "to": "avoided eye contact"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_5", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "wanted recognition"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_6", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "the interrogation room"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_6", "smooth": {"type": "continuous"}, "title": "showed_emotion", "to": "defensive"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_6", "smooth": {"type": "continuous"}, "title": "performed_action", "to": "avoided eye contact"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_6", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "was afraid of consequences"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_7", "smooth": {"type": "continuous"}, "title": "happened_during", "to": "questioned about the reasons"}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_7", "smooth": {"type": "continuous"}, "title": "performed_action", "to": ""}, {"arrows": "to", "color": {"color": "rgba(255, 255, 255, 0.2)"}, "from": "Statement_7", "smooth": {"type": "continuous"}, "title": "had_motive", "to": "was afraid of consequences"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"shape": "dot", "borderWidth": 2, "borderWidthSelected": 3, "size": 25, "color": {"border": "#2b2b2b", "background": "#97c2fc"}, "font": {"size": 14, "color": "#f8f8f2"}, "shadow": {"enabled": true}}, "edges": {"color": {"color": "rgba(255,255,255,0.2)", "highlight": "#ffffff"}, "width": 1, "smooth": {"type": "continuous"}, "arrows": {"to": {"enabled": true, "scaleFactor": 0.5}}, "shadow": {"enabled": true}}, "interaction": {"hover": true, "navigationButtons": true, "keyboard": true}, "physics": {"enabled": true, "solver": "barnesHut", "barnesHut": {"gravitationalConstant": -2000, "centralGravity": 0.1, "springLength": 200, "springConstant": 0.04, "damping": 0.09, "avoidOverlap": 1}, "minVelocity": 0.1, "maxVelocity": 10, "stabilization": {"enabled": false}, "timestep": 0.2, "adaptiveTimestep": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    <script>
+    // Function to get connected nodes
+    function getConnectedNodes(nodeId) {
+        var connectedNodes = new Set();
+        var edges = network.body.data.edges.get();
+        edges.forEach(function(edge) {
+            if (edge.from === nodeId) connectedNodes.add(edge.to);
+            if (edge.to === nodeId) connectedNodes.add(edge.from);
+        });
+        return Array.from(connectedNodes);
+    }
+    
+    // Add random motion to nodes
+    function applyRandomForce() {
+        var nodes = network.body.data.nodes.get();
+        nodes.forEach(function(node) {
+            if (!node.hidden) {
+                var randomAngle = Math.random() * 2 * Math.PI;
+                var randomMagnitude = Math.random() * 50;
+                var forceX = randomMagnitude * Math.cos(randomAngle);
+                var forceY = randomMagnitude * Math.sin(randomAngle);
+                
+                if (network.body.nodes[node.id]) {
+                    var nodeObj = network.body.nodes[node.id];
+                    if (nodeObj.options.fixed) return;  // Skip if node is fixed
+                    
+                    // Apply random force
+                    nodeObj.setForce(forceX, forceY);
+                }
+            }
+        });
+    }
+    
+    // Continuous random motion
+    setInterval(applyRandomForce, 1000);  // Apply random forces every second
+    
+    // Add slight wobble effect
+    function addWobble() {
+        var nodes = network.body.data.nodes.get();
+        nodes.forEach(function(node) {
+            if (!node.hidden) {
+                var wobbleMagnitude = 5;
+                var dx = (Math.random() - 0.5) * wobbleMagnitude;
+                var dy = (Math.random() - 0.5) * wobbleMagnitude;
+                
+                if (network.body.nodes[node.id]) {
+                    var nodeObj = network.body.nodes[node.id];
+                    if (nodeObj.options.fixed) return;
+                    
+                    // Apply gentle wobble
+                    nodeObj.x += dx;
+                    nodeObj.y += dy;
+                }
+            }
+        });
+        network.redraw();
+        requestAnimationFrame(addWobble);
+    }
+    
+    // Start the wobble animation
+    addWobble();
+    
+    // Handle node clicking for expand/collapse
+    network.on("click", function(params) {
+        if (params.nodes.length > 0) {
+            var nodeId = params.nodes[0];
+            var connectedNodes = getConnectedNodes(nodeId);
+            var nodes = network.body.data.nodes.get();
+            
+            connectedNodes.forEach(function(connId) {
+                var node = nodes.find(n => n.id === connId);
+                if (node) {
+                    network.body.data.nodes.update({
+                        id: connId,
+                        hidden: !node.hidden
+                    });
+                }
+            });
+        }
+    });
+    
+    // Add smooth transitions when nodes appear/disappear
+    network.on("beforeDrawing", function(ctx) {
+        var nodes = network.body.nodes;
+        for (var nodeId in nodes) {
+            var node = nodes[nodeId];
+            if (node.options.hidden) {
+                if (typeof node.opacity === 'undefined') node.opacity = 1;
+                node.opacity = Math.max(0, node.opacity - 0.1);
+            } else {
+                if (typeof node.opacity === 'undefined') node.opacity = 0;
+                node.opacity = Math.min(1, node.opacity + 0.1);
+            }
+        }
+    });
+    </script></body>
+</html>
